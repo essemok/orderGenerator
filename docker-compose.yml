@@ -1,0 +1,44 @@
+version: "3.7"
+services:
+    #Nginx service
+    nginx:
+        build:
+            context: docker/nginx
+        container_name: webserver
+        ports:
+            - "80:80"
+        volumes:
+            - ./:/app
+        networks:
+            - app-network
+
+    #Php-fpm service
+    php:
+        build:
+          context: docker/php
+        container_name: app
+        volumes:
+            - ./:/app
+        networks:
+            - app-network
+
+    #MySQL service
+    mysql:
+        image: mysql:8
+        container_name: mysql
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./mysqldata:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        networks:
+            - app-network
+
+#Docker networks
+networks:
+  app-network:
+      driver: bridge
