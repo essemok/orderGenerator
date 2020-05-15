@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     && docker-php-ext-configure zip \
-    && docker-php-ext-install pdo_mysql zip
+    && docker-php-ext-install mysqli pdo pdo_mysql zip
 
 # Ставим композер и "хирак ускоритель"
 ENV COMPOSER_ALLOW_SUPERUSER 1
