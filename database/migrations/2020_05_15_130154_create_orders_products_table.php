@@ -13,29 +13,31 @@ class CreateOrdersProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders_products', function (Blueprint $table) {
-            $table->id()->comment('Идентификатор состава заказа');
-            $table->bigInteger('order_id')
-                ->unsigned()
-                ->nullable(false)
-                ->comment('Идентификатор заказа, которому принадлежит товар');
-            $table->bigInteger('product_id')
-                ->unsigned()
-                ->nullable(false)
-                ->comment('Идентификатор товара из определённого заказа');
-            $table->timestamps();
+        if (!Schema::hasTable('orders_products')) {
+            Schema::create('orders_products', function (Blueprint $table) {
+                $table->id()->comment('Идентификатор состава заказа');
+                $table->bigInteger('order_id')
+                    ->unsigned()
+                    ->nullable(false)
+                    ->comment('Идентификатор заказа, которому принадлежит товар');
+                $table->bigInteger('product_id')
+                    ->unsigned()
+                    ->nullable(false)
+                    ->comment('Идентификатор товара из определённого заказа');
+                $table->timestamps();
 
 
-            $table->foreign('order_id')
-                ->references('id')
-                ->on('orders')
-                ->onDelete('cascade');
+                $table->foreign('order_id')
+                    ->references('id')
+                    ->on('orders')
+                    ->onDelete('cascade');
 
-            $table->foreign('product_id')
-                ->references('id')
-                ->on('products')
-                ->onDelete('cascade');
-        });
+                $table->foreign('product_id')
+                    ->references('id')
+                    ->on('products')
+                    ->onDelete('cascade');
+            });
+        }
     }
 
     /**

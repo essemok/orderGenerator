@@ -13,18 +13,20 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id()->comment('Идентификатор товара');
-            $table->string('name')
-                ->index()
-                ->nullable(false)
-                ->comment('Название товара');
-            $table->integer('price')
-                ->index()
-                ->nullable(false)
-                ->comment('Цена товара в долларах');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('products')) {
+            Schema::create('products', function (Blueprint $table) {
+                $table->id()->comment('Идентификатор товара');
+                $table->string('name')
+                    ->index()
+                    ->nullable(false)
+                    ->comment('Название товара');
+                $table->integer('price')
+                    ->index()
+                    ->nullable(false)
+                    ->comment('Цена товара в долларах');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

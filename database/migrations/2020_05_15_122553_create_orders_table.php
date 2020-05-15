@@ -13,21 +13,23 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id()->comment('Идентификатор заказа');
-            $table->integer('user_id')
-                ->unsigned()
-                ->nullable(false)
-                ->index()
-                ->comment('Идентификатор пользователя, который сделал заказ');
-            $table->timestamps();
+        if (!Schema::hasTable('orders')) {
+            Schema::create('orders', function (Blueprint $table) {
+                $table->id()->comment('Идентификатор заказа');
+                $table->bigInteger('user_id')
+                    ->unsigned()
+                    ->nullable(false)
+                    ->index()
+                    ->comment('Идентификатор пользователя, который сделал заказ');
+                $table->timestamps();
 
 
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
-        });
+                $table->foreign('user_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onDelete('cascade');
+            });
+        }
     }
 
     /**
