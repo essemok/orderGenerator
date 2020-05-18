@@ -1,5 +1,5 @@
 #!!!ПЕРВЫЙ ЗАПУСК ПРОЕКТА!!!
-init:up composer-install permissions
+init:up composer_install permissions copy_env generate_key
 
 #Штатный запуск проекта
 up:
@@ -17,11 +17,19 @@ data:
 	docker exec app php artisan db:seed --class=DatabaseSeeder
 
 
-composer-install:
+composer_install:
 	docker exec -it app composer install
 
 permissions:
-	docker exec app chmod -R 777 storage \
-	&& docker exec app chmod -R 777 mysqldata \
-	&& docker exec app chmod -R 777 bootstrap/cache \
-	&& docker exec app chmod -R 755 vendor \
+	sudo chmod -R 777 storage \
+	&& sudo chmod -R 777 mysqldata \
+	&& sudo chmod -R 777 bootstrap/cache \
+	&& sudo chmod -R 777 vendor \
+
+copy_env:
+	cp .env.example .env
+
+generate_key:
+	docker exec app php artisan key:generate
+
+
