@@ -32,7 +32,7 @@ class Order extends Model
      *
      * @var string
      */
-    protected string $table = 'orders';
+    protected $table = 'orders';
 
     /**
      * Набор продуктов, входящих в заказ

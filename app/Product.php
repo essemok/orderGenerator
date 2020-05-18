@@ -20,7 +20,7 @@ class Product extends Model
      *
      * @var string
      */
-    protected string $table = 'products';
+    protected $table = 'products';
 
     /**
      * Получаем все заказы в которых присутствует продукт
