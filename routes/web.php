@@ -17,4 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/', 'OrderController@generate');
+Route::post('/unique', 'OrderController@generateUniqueProductsOrder');
+Route::post('/duplicate', 'OrderController@generateDuplicateProductsOrder');

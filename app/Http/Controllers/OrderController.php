@@ -6,9 +6,28 @@ use App\Services\OrderService;
 
 class OrderController extends Controller
 {
-    public function generate(OrderService $orderService)
+    /**
+     * Обрабатываем запрос на формирование заказа
+     * состоящего из уникальных товаров
+     *
+     * @param OrderService $orderService
+     */
+    public function generateUniqueProductsOrder(OrderService $orderService)
     {
-        $order = $orderService->generateOrder();
+        $order = $orderService->generateUniqueProductsOrder();
+
+        dd($order);
+    }
+
+    /**
+     * Обрабатываем запрос на формирование заказа
+     * из повторяющихся элементов
+     *
+     * @param OrderService $orderService
+     */
+    public function generateDuplicateProductsOrder(OrderService $orderService)
+    {
+        $order = $orderService->generateDuplicateProductsOrder();
 
         dd($order);
     }
