@@ -15,12 +15,39 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Order extends Model
 {
+    /** @const int  Максимальная стоимость заказа*/
+    public const MAX_PRICE = 3000000;
+
+    /** @const int Минимальное кол-во продуктов в заказе*/
+    public const MIN_PRODUCTS_COUNT = 2500;
+
     /**
      * Название таблицы в БД
      *
      * @var string
      */
     protected string $table = 'orders';
+
+    /**
+     * Набор продуктов, входящих в заказ
+     *
+     * @var Product[]
+     */
+    private array $products = [];
+
+    /**
+     * Общаяя цена заказа
+     *
+     * @var int
+     */
+    private int $orderPrice = 0;
+
+    /**
+     * Общее кол-во едениц продуктов в заказе
+     *
+     * @var int
+     */
+    private int $orderProductsCount = 0;
 
     /**
      * Получаем пользователя, которому принадлежит заказ
@@ -46,4 +73,55 @@ class Order extends Model
             'product_id'
         );
     }
+
+    /**
+     * @param Product $products
+     */
+    public function addProduct(Product $product): void
+    {
+        $this->products[] = $product;
+
+        $this->addPrice($product->price);
+
+        $this->setProductsCount();
+    }
+
+    /**
+     * Получаем список всех продуктов
+     *
+     * @return array
+     */
+    public function getProducts(): array
+    {
+        return $this->products;
+    }
+
+    /**
+     * Получаем текущую стоимость заказа
+     *
+     * @return int
+     */
+    public function getOrderPrice(): int
+    {
+        return $this->orderPrice;
+    }
+
+    /**
+     * Добавляем стоимость добавляемого товара к общей цене
+     *
+     * @param int $price
+     */
+    private function addPrice(int $price): void
+    {
+        $this->orderPrice += $price;
+    }
+
+    /**
+     * Увеличиваем общее кол-во товаров на еденицу
+     */
+    private function setProductsCount(): void
+    {
+        ++$this->orderProductsCount;
+    }
+
 }
