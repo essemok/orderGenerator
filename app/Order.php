@@ -15,11 +15,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Order extends Model
 {
+    /** @const int  Минимальная стоимость заказа*/
+    public const MIN_PRICE = 2600000;
+
     /** @const int  Максимальная стоимость заказа*/
     public const MAX_PRICE = 3000000;
 
     /** @const int Минимальное кол-во продуктов в заказе*/
     public const MIN_PRODUCTS_COUNT = 2500;
+
+    /** @const int  Максимальное кол-во продуктов в заказе*/
+    public const MAX_PRODUCTS_COUNT = 3000;
 
     /**
      * Название таблицы в БД
@@ -75,6 +81,22 @@ class Order extends Model
     }
 
     /**
+     * Добавляем несколько продуктов в заказ
+     *
+     * @param $value
+     * @param Product $product
+     */
+    public function addProducts($value, Product $product)
+    {
+        while($value) {
+            $this->addProduct($product);
+            $value--;
+        }
+    }
+
+    /**
+     * Добавляем продукт в заказ
+     *
      * @param Product $products
      */
     public function addProduct(Product $product): void
@@ -104,6 +126,16 @@ class Order extends Model
     public function getOrderPrice(): int
     {
         return $this->orderPrice;
+    }
+
+    /**
+     * Получаем кол-во товаров в заказе
+     *
+     * @return int
+     */
+    public function getProductsCount(): int
+    {
+        return $this->orderProductsCount;
     }
 
     /**

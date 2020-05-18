@@ -15,6 +15,6 @@ class ProductRepository
      */
     public function getAllProducts(bool $desc = false): Collection
     {
-        return Product::all()->sortBy('price', SORT_NUMERIC, $desc);
+        return Product::all()->sortBy('price', SORT_NUMERIC, $desc)->values();
     }
 }

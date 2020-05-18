@@ -84,9 +84,13 @@
                     Генератор заказа
                 </div>
                 <div>
-                    <form method="post" action="{{action('OrderController@generate')}}">
+                    <form method="post" action="{{action('OrderController@generateUniqueProductsOrder')}}">
                         {{csrf_field()}}
-                        <button>Сгенерировать заказ</button>
+                        <button>Сгенерировать заказ из укникальных продуктов</button>
+                    </form>
+                    <form method="post" action="{{action('OrderController@generateDuplicateProductsOrder')}}">
+                        {{csrf_field()}}
+                        <button>Сгенерировать заказ из повторяющихся продуктов</button>
                     </form>
                 </div>
             </div>
